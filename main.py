@@ -9,8 +9,6 @@ filepaths = glob.glob('invoices/*.xlsx')
 print(filepaths)
 
 for i in filepaths:
-    df = pd.read_excel(i, sheet_name= "Sheet 1")
-    print(df)
     pdf = FPDF(orientation='p', unit='mm', format='A4')
     pdf.add_page()
     filename= Path(i).stem
@@ -27,7 +25,25 @@ for i in filepaths:
     pdf.cell(w=50, h=12, txt=f'DATE : {date}', align="M", ln=1)
 
     #adding table in pdf
+    df = pd.read_excel(i, sheet_name= "Sheet 1")
+    columns=df.columns
+    columns=[item.replace("_"," ").title() for item in columns]
+    pdf.set_font(family='Times', style='B', size=12)
+    pdf.cell(w=30, h=8, txt=f'{columns[0]}', align="M", border=1)
+    pdf.cell(w=50, h=8, txt=f'{columns[1]}', align="M", border=1)
+    pdf.cell(w=40, h=8, txt=f'{columns[2]}', align="M", border=1)
+    pdf.cell(w=30, h=8, txt=f'{columns[3]}', align="M", border=1)
+    pdf.cell(w=30, h=8, txt=f'{columns[4]}', align="M", border=1, ln=1)
 
+    for index,row in df.iterrows():
+        pdf.set_font(family='Times', style='B', size=8)
+        pdf.cell(w=30, h=8, txt=f'{row['product_id']}', align="M",border=1)
+        pdf.cell(w=50, h=8, txt=f'{row['product_name']}', align="M",border=1)
+        pdf.cell(w=40, h=8, txt=f'{row['amount_purchased']}', align="M",border=1)
+        pdf.cell(w=30, h=8, txt=f'{row['price_per_unit']}', align="M",border=1)
+        pdf.cell(w=30, h=8, txt=f'{row['total_price']}', align="M",border=1,ln=1)
+        print(index)
+        print(row)
 
 
     #printing out the pdf

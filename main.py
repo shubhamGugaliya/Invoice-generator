@@ -45,6 +45,20 @@ for i in filepaths:
         print(index)
         print(row)
 
+    pdf.set_font(family='Times', style='B', size=8)
+    pdf.cell(w=30, h=8, txt='', align="M", border=1)
+    pdf.cell(w=50, h=8, txt='', align="M", border=1)
+    pdf.cell(w=40, h=8, txt='', align="M", border=1)
+    pdf.cell(w=30, h=8, txt='', align="M", border=1)
+    pdf.cell(w=30, h=8, txt=f'{df["total_price"].sum()}', align="M", border=1, ln=1)
+
+#writing the summary in pdf
+    pdf.set_font(family='Times', style='B', size=10)
+    pdf.cell(w=80, h=8, txt=f'The total price is {df["total_price"].sum()} ', align="M", ln=1)
+
+    #add company name and logo
+    pdf.cell(w=30, h=8, txt=f'Shubham Gugaliya', align="M")
+    pdf.image("images/pythonhow.png",w=10)
 
     #printing out the pdf
     pdf.output(f'PDFs/{filename}.pdf')
